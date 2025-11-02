@@ -9,6 +9,7 @@ FastAPI application with:
 """
 
 from fastapi import FastAPI
+from datetime import datetime
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
@@ -57,3 +58,13 @@ async def root():
         "docs": "/docs",
         "api_prefix": settings.API_V1_PREFIX
     }
+
+@app.get("/health")
+async def health_check():
+    """Health check endpoint for monitoring services"""
+    return {
+        "status": "healthy",
+        "message": "Backend is alive",
+        "timestamp": datetime.now().isoformat(),
+        "service": "render-backend"
+}
